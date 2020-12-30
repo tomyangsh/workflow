@@ -1,0 +1,25 @@
+name: ytdl
+
+on:
+  schedule:    
+    - cron: "0 0 * * *"
+
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        repository: tomyangsh/youtube-dl
+
+    - shell: bash
+      run: |
+        git remote add upstream https://github.com/ytdl-org/youtube-dl.git
+        git config --local user.name "actions"
+        git config --local user.email "action@github.com"
+        git pull upstream master
+        git remote set-url --add origin https://github.com/tomyangsh/youtube.git
+        git push 
